@@ -1,0 +1,42 @@
+---
+  name: Minecraft Bedrock Tag
+
+  on:
+    workflow_dispatch:
+    schedule:
+      - cron: "0 0 * * *"
+
+  jobs:
+    build:
+      name: Minecraft Bedrock Tag
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+          with:
+            fetch-depth: 0
+
+        # https://github.com/tyriis/bedrock-version-fetcher
+        - name: Fetch Bedrock Version
+          uses: tyriis/bedrock-version-fetcher@v3.0.1
+          id: bedrock
+
+        - name: PrintBedrock Version
+          run: echo "Current Minecraft Bedrock version is ${{ steps.bedrock.outputs.version }}"
+
+        - name: get latest tag
+          id: get_latest_tag
+          run: echo ::set-output name=tag::$(git describe --tags `git rev-list --tags --max-count=1`)
+
+        # https://github.com/marketplace/actions/install-gh-cli
+        - name: install github cli
+          if: ${{ steps.bedrock.outputs.version }} != ${{ steps.get_latest_tag.outputs.tag }}
+          uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
+
+        - name: create release
+          if: ${{ steps.bedrock.outputs.version }} != ${{ steps.get_latest_tag.outputs.tag }}
+          run: |
+            echo "Updating to ${{ steps.bedrock.outputs.version }}"
+            gh release create ${{ steps.bedrock.outputs.version }} --title ${{ steps.bedrock.outputs.version }} --notes "Minecraft Bedrock version ${{ steps.bedrock.outputs.version }}"
+
+
