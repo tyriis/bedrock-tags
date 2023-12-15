@@ -26,20 +26,27 @@ jobs:
       - name: PrintBedrock Version
         run: echo "Current Minecraft Bedrock version is ${{ steps.bedrock.outputs.version }}"
 
-      - name: get latest tag
-        id: get_latest_tag
-        run: echo "tag=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_OUTPUT
-
-      - name: Print Current Tag
-        run: echo "Current Tag is ${{ steps.get_latest_tag.outputs.version }}"
-
       # https://github.com/marketplace/actions/install-gh-cli
       - name: install github cli
         if: ${{ steps.bedrock.outputs.version }} != ${{ steps.get_latest_tag.outputs.tag }}
         uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
 
+      - name: Setup Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Setup Tools
+        run: |
+          brew install jq
+
+      - name: get current release
+        id: release
+        run: echo "version=$(gh release view --json tagName | jq -r .tagName)" >> $GITHUB_OUTPUT
+
+      - name: Print Current Tag
+        run: echo "Current Tag is ${{ steps.release.outputs.version }}"
+
       - name: create release
-        if: ${{ steps.bedrock.outputs.version }} != ${{ steps.get_latest_tag.outputs.tag }}
+        if: ${{ steps.bedrock.outputs.version }} != ${{ steps.release.outputs.version }} && ${{ steps.release.outputs.version }} != 'release not found'
         run: |
           echo "Updating to ${{ steps.bedrock.outputs.version }}"
           gh release create ${{ steps.bedrock.outputs.version }} --title ${{ steps.bedrock.outputs.version }} --notes "Minecraft Bedrock version ${{ steps.bedrock.outputs.version }}"
