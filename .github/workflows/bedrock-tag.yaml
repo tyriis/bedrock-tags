@@ -48,7 +48,7 @@ jobs:
         run: echo "Current Tag is ${{ steps.release.outputs.version }}"
 
       - name: create release
-        if: ${{ steps.bedrock.outputs.version }} != ${{ steps.release.outputs.version }} && ${{ steps.release.outputs.version }} != 'release not found'
+        if: steps.bedrock.outputs.version != steps.release.outputs.version && steps.release.outputs.version != 'release not found'
         run: |
           echo "Updating to ${{ steps.bedrock.outputs.version }}"
           gh release create ${{ steps.bedrock.outputs.version }} --title ${{ steps.bedrock.outputs.version }} --notes "Minecraft Bedrock version ${{ steps.bedrock.outputs.version }}"
