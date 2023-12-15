@@ -24,8 +24,6 @@ This repo serves as a github-release source for renovate to handle minecraft bed
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 - [User Story](#user-story)
-- [Usage](#usage)
-  - [Outputs](#outputs)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
