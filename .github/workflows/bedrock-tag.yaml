@@ -41,6 +41,8 @@ jobs:
       - name: get current release
         id: release
         run: echo "version=$(gh release view --json tagName | jq -r .tagName)" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Print Current Tag
         run: echo "Current Tag is ${{ steps.release.outputs.version }}"
