@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "54 */6 * * *"
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Minecraft Bedrock Tag
