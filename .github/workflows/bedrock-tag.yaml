@@ -44,8 +44,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Print Current Tag
-        run: echo "Current Tag is ${{ steps.release.outputs.version }}"
+      - name: print current release
+        run: echo "Current Release is ${{ steps.release.outputs.version }}"
 
       - name: create release
         if: steps.bedrock.outputs.version != steps.release.outputs.version && steps.release.outputs.version != 'release not found'
