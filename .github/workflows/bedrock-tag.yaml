@@ -23,7 +23,7 @@ jobs:
 
       # https://github.com/tyriis/bedrock-version-fetcher
       - name: Fetch Bedrock Version
-        uses: tyriis/bedrock-version-fetcher@v3.0.1
+        uses: tyriis/bedrock-version-fetcher@0c2759e7c6b80fa64788ab47367ca53bfa469707 # v3.0.1
         id: bedrock
 
       - name: PrintBedrock Version
@@ -32,7 +32,7 @@ jobs:
       # https://github.com/marketplace/actions/install-gh-cli
       - name: install github cli
         if: ${{ steps.bedrock.outputs.version }} != ${{ steps.get_latest_tag.outputs.tag }}
-        uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
+        uses: dev-hanz-ops/install-gh-cli-action@006996394f415f03969b74e3296af42f34f6d8f5 # v0.1.0
 
       - name: Setup Homebrew
         uses: Homebrew/actions/setup-homebrew@master
