@@ -16,7 +16,7 @@
   semanticCommits: "enabled",
   suppressNotifications: ["prIgnoreNotification"],
   rebaseWhen: "conflicted",
-  regexManagers: [],
+  customManagers: [],
   packageRules: [],
   ignorePaths: [
     "^archive/**",
