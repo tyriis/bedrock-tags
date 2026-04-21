@@ -21,10 +21,30 @@ jobs:
         with:
           fetch-depth: 0
 
-      # https://github.com/tyriis/bedrock-version-fetcher
+      - name: Setup Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Setup Tools
+        run: |
+          brew install jq
+
       - name: Fetch Bedrock Version
-        uses: tyriis/bedrock-version-fetcher@0c2759e7c6b80fa64788ab47367ca53bfa469707 # v3.0.1
         id: bedrock
+        run: |
+          set -euo pipefail
+          version="$(curl -fsSL 'https://net-secondary.web.minecraft-services.net/api/v1.0/download/links' \
+            | jq -r '.result.links[]
+              | select(.downloadType == "serverBedrockLinux")
+              | .downloadUrl
+              | capture("bedrock-server-(?<version>[0-9.]+)\\.zip$").version' \
+            | head -n1)"
+
+          if [ -z "${version}" ] || [ "${version}" = "null" ]; then
+            echo "Could not determine serverBedrockLinux version" >&2
+            exit 1
+          fi
+
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
 
       - name: PrintBedrock Version
         run: echo "Current Minecraft Bedrock version is ${{ steps.bedrock.outputs.version }}"
@@ -33,13 +53,6 @@ jobs:
       - name: install github cli
         if: ${{ steps.bedrock.outputs.version }} != ${{ steps.get_latest_tag.outputs.tag }}
         uses: dev-hanz-ops/install-gh-cli-action@af38ce09b1ec248aeb08eea2b16bbecea9e059f8 # v0.2.1
-
-      - name: Setup Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-
-      - name: Setup Tools
-        run: |
-          brew install jq
 
       - name: get current release
         id: release
