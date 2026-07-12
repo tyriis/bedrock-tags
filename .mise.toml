@@ -1,6 +1,6 @@
 [tools]
 "aqua:pre-commit/pre-commit" = "4.6.0"
-"aqua:go-task/task" = "3.51.1"
+"aqua:go-task/task" = "3.52.0"
 # https://direnv.net/
 direnv = "2.37.1"
 # https://gitleaks.io/
@@ -9,5 +9,5 @@ gitleaks = "8.30.1"
 sops = "3.13.2"
 # https://taskfile.dev/
 task = "3.50.0"
-gh = "2.95.0"
+gh = "2.96.0"
 yamllint = "1.38.0"
