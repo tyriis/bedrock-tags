@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Homebrew
-        uses: Homebrew/actions/setup-homebrew@fd832223f9f99ebf0244dd20658680e5d4aca049 # master
+        uses: Homebrew/actions/setup-homebrew@d3565f64e59130f1fd713440276f7d3e11079b88 # master
 
       - name: Setup Tools
         run: |
