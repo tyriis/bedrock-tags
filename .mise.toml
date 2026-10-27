@@ -6,7 +6,7 @@ direnv = "2.38.2"
 # https://gitleaks.io/
 gitleaks = "8.30.1"
 # https://github.com/mozilla/sops
-sops = "3.13.2"
+sops = "3.13.3"
 # https://taskfile.dev/
 task = "3.54.0"
 gh = "2.96.0"
